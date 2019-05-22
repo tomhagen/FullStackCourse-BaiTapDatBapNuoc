@@ -1,8 +1,15 @@
 import React, { Component, Fragment } from "react";
 import OrderItem from '../order-item';
 import OrderResult from '../order-result';
+import {connect} from 'react-redux';
 
 class Order extends Component {
+
+  renderOrderItem = () => {
+    return this.props.orderList.map((orderItem,index) => {
+      return <OrderItem orderItem = {orderItem} key={index} />
+    })
+  }
   render() {
     return (
       <Fragment>
@@ -11,10 +18,16 @@ class Order extends Component {
             Thông tin Order
           </h3>
         </div>
-        <OrderItem/>
+        {this.renderOrderItem()}
         <OrderResult/>
       </Fragment>
     );
   }
 }
-export default Order;
+
+const mapStateToProps = (state) => {
+  return {
+    orderList: state.orderList
+  }
+}
+export default connect(mapStateToProps,null) (Order);
